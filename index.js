@@ -1,23 +1,31 @@
-import knexConfig from './knexfile';
+
 const express = require('express');
 const helmet = require('helmet');
 const knex = require('knex');
 
-const db = knex(knexConfig);
+const knexConfig = {
+    client: 'sqlite3',
+    connection: {
+      filename: './database/lambda.db3',
+    },
+    useNullAsDefault: true, // needed for sqlite
+  };
+  const db = knex(knexConfig);
+
 
 const server = express();
 
 server.use(helmet());
 server.use(express.json());
 
-// server.get('/api/roles', async (req, res) => {
-//   try {
-//     const roles = await db('roles'); 
-//     res.status(200).json(roles);
-//   } catch (error) {
-//     res.status(500).json(error);
-//   }
-// });
+server.get('/api/cohorts', async (req, res) => {
+  try {
+    const cohorts = await db('cohorts'); 
+    res.status(200).json(cohorts);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
 
 
 // server.get('/api/roles/:id', async (req, res) => {
