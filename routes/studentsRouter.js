@@ -27,6 +27,10 @@ router.get('/api/students', async (req, res) => {
   };
   
   router.post('/api/students', async (req, res) => {
+    if(!req.body.name) {
+      res.status(400).json({ errormsg: 'Please enter a name' });
+      return;
+    }
     try {
       const [id] = await db('students').insert(req.body);
   
@@ -42,6 +46,10 @@ router.get('/api/students', async (req, res) => {
   });
   
   router.put('/api/students/:id', async (req, res) => {
+    if(!req.body.name) {
+      res.status(400).json({ errormsg: 'Please enter a name' });
+      return;
+    }
     try {
       const count = await db('students')
         .where({ id: req.params.id })

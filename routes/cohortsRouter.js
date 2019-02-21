@@ -27,6 +27,10 @@ router.get('/api/cohorts', async (req, res) => {
   };
   
   router.post('/api/cohorts', async (req, res) => {
+    if(!req.body.name) {
+      res.status(400).json({ errormsg: 'Please enter a name' });
+      return;
+    }
     try {
       const [id] = await db('cohorts').insert(req.body);
   
@@ -42,6 +46,10 @@ router.get('/api/cohorts', async (req, res) => {
   });
   
   router.put('/api/cohorts/:id', async (req, res) => {
+    if(!req.body.name) {
+      res.status(400).json({ errormsg: 'Please enter a name' });
+      return;
+    }
     try {
       const count = await db('cohorts')
         .where({ id: req.params.id })
